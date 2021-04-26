@@ -1,26 +1,79 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container column">
+
+    <constructor-controls
+      @createNewBlock="addBlock"
+    ></constructor-controls>
+
+    <constructor-result
+      :result="resultCV"
+    ></constructor-result>
+
+  </div>
+
+  <div class="container">
+    <p>
+      <button class="btn primary" @click="loadComments">Загрузить комментарии</button>
+    </p>
+
+    <app-comments
+      :comments="comments"
+      v-if="showComments"
+      :loading="commentsLoading"
+    ></app-comments>
+
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import ConstructorControls from '@/ConstructorControls'
+import ConstructorResult from '@/ConstructorResult'
+import AppComments from '@/AppComments'
+import axios from 'axios'
 
 export default {
-  name: 'App',
+  data() {
+    return {
+      comments: [],
+      commentsLoading: false,
+      showComments: false,
+      resultCV: []
+    }
+  },
   components: {
-    HelloWorld
+    ConstructorControls,
+    ConstructorResult,
+    AppComments
+  },
+  methods: {
+    async loadComments() {
+      this.showComments = true
+      this.commentsLoading = true
+      try {
+        const {data} = await axios.get('https://jsonplaceholder.typicode.com/comments?_limit=42')
+        this.comments = data
+      } catch (e) {
+        console.log(e)
+      } finally {
+        this.commentsLoading = false
+      }
+    },
+    addBlock(block) {
+      this.resultCV.push(block)
+    }
   }
 }
 </script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style>
+  .avatar {
+    display: flex;
+    justify-content: center;
+  }
+
+  .avatar img {
+    width: 150px;
+    height: auto;
+    border-radius: 50%;
+  }
 </style>

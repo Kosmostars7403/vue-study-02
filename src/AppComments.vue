@@ -1,0 +1,27 @@
+<template>
+  <div class="card" v-if="!loading">
+    <h2>Комментарии</h2>
+    <ul class="list" >
+      <li class="list-item" v-for="comment in comments" :key="comment.id">
+        <div>
+          <p><strong>{{ comment.email }}</strong></p>
+          <small>{{ comment.body }}</small>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="loader" v-else></div>
+</template>
+
+<script>
+export default {
+  props: {
+    comments: Array,
+    loading: Boolean
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
