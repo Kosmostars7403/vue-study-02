@@ -1,4 +1,7 @@
-# 05-vue-cli
+# Resume constructor
+
+This project was created for educational purposes.
+[demo](https://vue-study-daf71.web.app/)
 
 ## Project setup
 ```
